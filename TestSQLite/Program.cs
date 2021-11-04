@@ -86,6 +86,19 @@ namespace TestSQLite
                             Console.WriteLine($"articleId: {queryRes["articlesId"]} \n articleTitle: {queryRes["articlesTitle"]} \n articleAuthor: {queryRes["articlesAuthor"]} \n articleData: {queryRes["articlesData"]} \n articleText: {queryRes["articlesText"]} \nEND ARTICLE\n");
                         }
                     }
+
+                    string authSelected = "tester";
+                    sql = @"SELECT articlesId, articlesTitle FROM articles WHERE articlesAuthor = @articlesAuthor";
+                    dbCmd.CommandText = sql;
+                    dbCmd.Parameters.AddWithValue("articlesAuthor", authSelected);
+                    using (SQLiteDataReader queryRes = dbCmd.ExecuteReader())
+                    {
+                        Console.WriteLine($"Articles Maded by {authSelected}:");
+                        while (queryRes.Read())
+                        {
+                            Console.WriteLine($" {queryRes["articlesId"]}: {queryRes["articlesTitle"]} \nEND ARTICLE\n");
+                        }
+                    }
                 }
 
                 dbConn.Close();
